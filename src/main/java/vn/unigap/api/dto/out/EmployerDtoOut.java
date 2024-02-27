@@ -1,13 +1,10 @@
 package vn.unigap.api.dto.out;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import vn.unigap.api.repository.Employer;
+import vn.unigap.api.entity.Employer;
 
 import java.time.Instant;
 

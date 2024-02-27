@@ -1,4 +1,4 @@
-package vn.unigap.api.repository;
+package vn.unigap.api.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -18,7 +18,7 @@ import java.time.Instant;
 public class Employer {
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Email

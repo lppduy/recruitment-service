@@ -1,5 +1,8 @@
 package vn.unigap.api.service;
 
-public interface EmployerService {
+import vn.unigap.api.dto.in.EmployerDtoIn;
+import vn.unigap.api.dto.out.EmployerDtoOut;
 
+public interface EmployerService {
+    EmployerDtoOut createEmployer(EmployerDtoIn employerDtoIn);
 }
