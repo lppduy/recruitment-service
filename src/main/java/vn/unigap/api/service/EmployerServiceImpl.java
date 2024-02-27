@@ -38,13 +38,13 @@ public class EmployerServiceImpl implements EmployerService {
                 .orElseThrow(() -> new ApiException(ErrorCode.BAD_REQUEST,
                         HttpStatus.BAD_REQUEST, "Invalid provinceId"));
 
-        Employer user = employerRepository.save(Employer.builder()
+        Employer employer = employerRepository.save(Employer.builder()
                 .email(employerDtoIn.getEmail())
                 .name(employerDtoIn.getName())
                 .province(employerDtoIn.getProvinceId())
                 .description(employerDtoIn.getDescription())
                 .build());
 
-        return EmployerDtoOut.from(user);
+        return EmployerDtoOut.from(employer);
     }
 }
