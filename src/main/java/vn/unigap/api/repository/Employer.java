@@ -22,20 +22,20 @@ public class Employer {
     private Long id;
 
     @Email
-    @Column(name= "email", nullable = false, length = 255)
+    @Column(name= "email", unique = true)
     private String email;
-    @Column(name= "name", nullable = false, length = 255)
+    @Column(name= "name")
     private String name;
-    @Column(name= "province", nullable = false)
+    @Column(name= "province")
     private int province;
     @Column(name= "description")
     private String description;
 
-    @Column(name = "created_at", nullable = false, updatable = false)
+    @Column(name = "created_at")
     @CreationTimestamp
     private Instant createdAt;
 
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "updated_at")
     @UpdateTimestamp
     private Instant updatedAt;
 }
