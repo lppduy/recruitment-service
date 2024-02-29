@@ -24,10 +24,13 @@ public class Employer {
     @Email
     @Column(name= "email", unique = true)
     private String email;
+
     @Column(name= "name")
     private String name;
-    @Column(name= "province")
+
+    @Column(name = "province")
     private int province;
+
     @Column(name= "description")
     private String description;
 
@@ -38,4 +41,5 @@ public class Employer {
     @Column(name = "updated_at")
     @UpdateTimestamp
     private Instant updatedAt;
+
 }

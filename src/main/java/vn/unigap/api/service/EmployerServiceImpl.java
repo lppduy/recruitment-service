@@ -1,16 +1,23 @@
 package vn.unigap.api.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import vn.unigap.api.dto.in.EmployerDtoIn;
+import vn.unigap.api.dto.in.PageDtoIn;
 import vn.unigap.api.dto.out.EmployerDtoOut;
+import vn.unigap.api.dto.out.PageDtoOut;
 import vn.unigap.api.entity.Employer;
 import vn.unigap.api.entity.Province;
 import vn.unigap.api.repository.EmployerRepository;
 import vn.unigap.api.repository.ProvinceRepository;
 import vn.unigap.common.errorcode.ErrorCode;
 import vn.unigap.common.exception.ApiException;
+
+import java.util.HashMap;
 
 @Service
 public class EmployerServiceImpl implements EmployerService {
@@ -34,7 +41,7 @@ public class EmployerServiceImpl implements EmployerService {
                             HttpStatus.BAD_REQUEST, "email already existed");
                 });
 
-        provinceRepository.findById(employerDtoIn.getProvinceId())
+         Province province = provinceRepository.findById(employerDtoIn.getProvinceId())
                 .orElseThrow(() -> new ApiException(ErrorCode.BAD_REQUEST,
                         HttpStatus.BAD_REQUEST, "Invalid provinceId"));
 
@@ -45,6 +52,61 @@ public class EmployerServiceImpl implements EmployerService {
                 .description(employerDtoIn.getDescription())
                 .build());
 
-        return EmployerDtoOut.from(employer);
+        return EmployerDtoOut.from(employer,province.getName());
+    }
+
+    @Override
+    public EmployerDtoOut updateEmployer(Long id, EmployerDtoIn employerDtoIn) {
+
+        Employer employer = employerRepository.findById(id).orElseThrow(
+                () -> new ApiException(ErrorCode.NOT_FOUND, HttpStatus.NOT_FOUND, "Employer not found")
+        );
+
+        Province province = provinceRepository.findById(employerDtoIn.getProvinceId())
+                .orElseThrow(() -> new ApiException(ErrorCode.BAD_REQUEST,
+                        HttpStatus.BAD_REQUEST, "Invalid provinceId"));
+
+        employer.setName(employerDtoIn.getName());
+        employer.setEmail(employerDtoIn.getEmail());
+        employer.setDescription(employer.getDescription());
+        employer.setProvince(employer.getProvince());
+
+        employer = employerRepository.save(employer);
+
+        return EmployerDtoOut.from(employer,province.getName());
+    }
+
+    @Override
+    public EmployerDtoOut getEmployer(Long id) {
+        Employer employer = employerRepository.findById(id).orElseThrow(
+                () -> new ApiException(ErrorCode.NOT_FOUND, HttpStatus.NOT_FOUND, "Employer not found")
+        );
+        Province province = provinceRepository.findById(employer.getProvince())
+                .orElseThrow(() -> new ApiException(ErrorCode.BAD_REQUEST,
+                        HttpStatus.BAD_REQUEST, "Invalid provinceId"));
+        return EmployerDtoOut.from(employer, province.getName());
+    }
+
+    @Override
+    public void deleteEmployer(Long id) {
+        Employer employer = employerRepository.findById(id).orElseThrow(
+                () -> new ApiException(ErrorCode.NOT_FOUND, HttpStatus.NOT_FOUND, "Employer not found")
+        );
+
+        employerRepository.delete(employer);
+    }
+
+    @Override
+    public PageDtoOut<EmployerDtoOut> getAllEmployers(PageDtoIn pageDtoIn) {
+
+        Page<Employer> employerPage = this.employerRepository.findAll(PageRequest.of(pageDtoIn.getPage() - 1, pageDtoIn.getPageSize(),
+                Sort.by("name").ascending()));
+        return PageDtoOut.from(pageDtoIn.getPage(), pageDtoIn.getPageSize(), employerPage.getTotalElements(),
+                employerPage.stream().map((Employer employer) -> {
+                    Province province = provinceRepository.findById(employer.getProvince())
+                            .orElseThrow(() -> new ApiException(ErrorCode.BAD_REQUEST,
+                                    HttpStatus.BAD_REQUEST, "Invalid provinceId"));
+                   return EmployerDtoOut.from(employer, province.getName());
+                }).toList());
     }
 }

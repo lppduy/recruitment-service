@@ -3,6 +3,8 @@ package vn.unigap.api.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Set;
+
 @Getter
 @Setter
 @Builder
@@ -21,4 +23,5 @@ public class Province {
 
     @Column(name = "slug")
     private String slug;
+
 }
