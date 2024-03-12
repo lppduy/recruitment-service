@@ -1,13 +1,11 @@
 package vn.unigap.api.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -15,25 +13,39 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "employer")
-public class Employer {
+@Table(name = "job")
+public class Job {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Email
-    @Column(name= "email", unique = true)
-    private String email;
+//    @Column(name = "employer_id")
+//    private Long employerId;
+    @ManyToOne
+    @JoinColumn(name = "employer_id")
+    private Employer employer;
 
-    @Column(name= "name")
-    private String name;
+    @Column(name = "title")
+    private String title;
 
-    @Column(name = "province")
-    private int province;
+    @Column(name = "quantity")
+    private int quantity;
 
-    @Column(name= "description")
+    @Column(name = "description")
     private String description;
+
+    @Column(name = "salary")
+    private int salary;
+
+    @Column(name = "fields")
+    private String fields;
+
+    @Column(name = "provinces")
+    private String provinces;
+
+    @Column(name = "expired_at")
+    private Instant expiredAt;
 
     @Column(name = "created_at")
     @CreationTimestamp
@@ -43,6 +55,4 @@ public class Employer {
     @UpdateTimestamp
     private Instant updatedAt;
 
-    @OneToMany(mappedBy = "employer")
-    Set<Job> jobs;
 }
