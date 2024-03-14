@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -13,7 +14,7 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "job")
+@Table(name = "jobs")
 public class Job {
     @Id
     @Column(name = "id")
@@ -36,7 +37,7 @@ public class Job {
     private String description;
 
     @Column(name = "salary")
-    private int salary;
+    private double salary;
 
     @Column(name = "fields")
     private String fields;
@@ -45,7 +46,7 @@ public class Job {
     private String provinces;
 
     @Column(name = "expired_at")
-    private Instant expiredAt;
+    private LocalDate expiredAt;
 
     @Column(name = "created_at")
     @CreationTimestamp
