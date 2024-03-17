@@ -3,7 +3,6 @@ package vn.unigap.api.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -12,8 +11,8 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "job_province")
-public class Province {
+@Table(name = "job_field")
+public class Field {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,13 +24,6 @@ public class Province {
     @Column(name = "slug")
     private String slug;
 
-    @OneToMany(mappedBy = "province")
-    private List<Seeker> seekers;
-
-    @ManyToMany(mappedBy = "provincesEntity")
-    private Set<Job> jobs;
-
-    @ManyToMany(mappedBy = "provinceSet")
+    @ManyToMany(mappedBy = "fieldSet")
     private Set<Resume> resumes;
-
 }

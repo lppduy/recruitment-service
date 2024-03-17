@@ -7,6 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -41,5 +42,8 @@ public class Seeker {
     @Column(name = "updated_at")
     @UpdateTimestamp
     private Instant updatedAt;
+
+    @OneToMany(mappedBy = "seeker")
+    private Set<Resume> resumes;
 
 }
