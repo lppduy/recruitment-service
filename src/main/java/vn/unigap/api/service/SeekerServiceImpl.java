@@ -1,7 +1,10 @@
 package vn.unigap.api.service.impl;
 
 import org.springframework.stereotype.Service;
+import vn.unigap.api.dto.in.SeekerDtoIn;
 import vn.unigap.api.dto.out.SeekerDtoOut;
+import vn.unigap.api.entity.Seeker;
+import vn.unigap.api.repository.SeekerRepository;
 import vn.unigap.api.service.SeekerService;
 
 import java.util.List;
@@ -9,11 +12,25 @@ import java.util.List;
 @Service
 public class SeekerServiceImpl implements SeekerService {
 
+    private final SeekerRepository seekerRepository;
+
+    public SeekerServiceImpl(SeekerRepository seekerRepository) {
+        this.seekerRepository = seekerRepository;
+    }
 
     @Override
-    public SeekerDtoOut createSeeker(SeekerDtoOut seekerDtoOut) {
-        // TODO: Implement this method
-        return null;
+    public SeekerDtoOut createSeeker(SeekerDtoIn seekerDtoIn) {
+
+        Seeker savedSeeker = seekerRepository.save(
+                new Seeker().builder()
+                        .name(seekerDtoIn.getName())
+                        .birthday(seekerDtoIn.getBirthday())
+                        .address(seekerDtoIn.getAddress())
+                        .province(seekerDtoIn.getProvinceId())
+                        .build()
+        );
+
+        return SeekerDtoOut.from(savedSeeker);
     }
 
     @Override

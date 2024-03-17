@@ -26,14 +26,13 @@ public class SeekerDtoOut {
 
     private String provinceName;
 
-    public static SeekerDtoOut from(Seeker seeker, String provinceName) {
+    public static SeekerDtoOut from(Seeker seeker) {
         return SeekerDtoOut.builder()
                 .id(seeker.getId())
                 .name(seeker.getName())
                 .birthday(seeker.getBirthday())
                 .address(seeker.getAddress())
                 .provinceId(seeker.getProvince())
-                .provinceName(provinceName)
                 .build();
     }
 }
