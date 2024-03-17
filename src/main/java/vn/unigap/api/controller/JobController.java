@@ -60,9 +60,9 @@ public class JobController  extends AbstractResponseController {
     }
 
     @GetMapping(value = "", consumes = MediaType.ALL_VALUE)
-    public ResponseEntity<?> getAllJobs(@Valid PageDtoIn pageDtoIn) {
+    public ResponseEntity<?> getAllJobs(@Valid PageDtoIn pageDtoIn, @RequestParam(required = false, defaultValue = "-1") Long employerId) {
         return responseEntity(() -> {
-            return this.jobService.getAllJobs(pageDtoIn);
+            return this.jobService.getAllJobs(pageDtoIn.getPage(), pageDtoIn.getPageSize(), employerId);
         });
     }
 

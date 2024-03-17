@@ -3,6 +3,7 @@ package vn.unigap.api.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -103,12 +104,20 @@ public class JobServiceImpl implements JobService{
     }
 
     @Override
-    public PageDtoOut<JobDtoOut> getAllJobs(PageDtoIn pageDtoIn) {
-        Page<Job> jobPage = this.jobRepository.findAll(PageRequest.of(pageDtoIn.getPage() - 1, pageDtoIn.getPageSize(),
-                Sort.by("title").ascending()));
-        // Tạo đối tượng JobDtoOut từ đối tượng Job
-        // Bạn cần thay đổi phương thức này nếu cần thiết
-        return PageDtoOut.from(pageDtoIn.getPage(), pageDtoIn.getPageSize(), jobPage.getTotalElements(),
+    public PageDtoOut<JobDtoOut> getAllJobs(int page, int pageSize, Long employerId) {
+        // Create Pageable with sorting by expiredAt descending and employer.name ascending
+        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by("expiredAt").descending().and(Sort.by("employer.name")));
+
+        // Get jobs from the database based on employerId
+        Page<Job> jobPage;
+        if (employerId == -1) {
+            jobPage = jobRepository.findAll(pageable);
+        } else {
+            jobPage = jobRepository.findByEmployerId(employerId, pageable);
+        }
+
+        // Convert Job to JobDtoOut and return
+        return PageDtoOut.from(page, pageSize, jobPage.getTotalElements(),
                 jobPage.stream().map(JobDtoOut::from).toList());
     }
 

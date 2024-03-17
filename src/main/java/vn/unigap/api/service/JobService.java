@@ -10,5 +10,5 @@ public interface JobService {
     JobDtoOut updateJob(Long id, JobDtoIn jobDtoIn);
     JobDtoOut getJob(Long id);
     void deleteJob(Long id);
-    PageDtoOut<JobDtoOut> getAllJobs(PageDtoIn pageDtoIn);
+    PageDtoOut<JobDtoOut> getAllJobs(int page, int pageSize, Long employerId);
 }
