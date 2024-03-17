@@ -24,15 +24,16 @@ public class JobDtoOut {
     private LocalDate expiredAt;
 
     public static JobDtoOut from(Job job) {
-        return JobDtoOut.builder()
+        JobDtoOut result = JobDtoOut.builder()
                 .id(job.getId())
                 .title(job.getTitle())
                 .quantity(job.getQuantity())
                 .description(job.getDescription())
                 .salary(job.getSalary())
                 .fields(job.getFields())
-                .provinces(job.getProvinces())
+                .provinces(job.provincesToString())
                 .expiredAt(job.getExpiredAt())
                 .build();
+        return result;
     }
 }

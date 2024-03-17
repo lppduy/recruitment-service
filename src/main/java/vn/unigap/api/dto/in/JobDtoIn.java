@@ -1,5 +1,6 @@
 package vn.unigap.api.dto.in;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -7,9 +8,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import vn.unigap.api.entity.Province;
+import vn.unigap.common.ProvincesDeserializer;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -35,7 +39,8 @@ public class JobDtoIn {
     private String fieldIds;
 
     @NotNull
-    private String provinceIds;
+    @JsonDeserialize(using = ProvincesDeserializer.class)
+    private Set<Province> provinceIds;
 
     @NotNull
     private Double salary;

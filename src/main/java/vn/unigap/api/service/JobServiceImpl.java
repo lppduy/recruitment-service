@@ -13,12 +13,14 @@ import vn.unigap.api.dto.in.PageDtoIn;
 import vn.unigap.api.dto.out.PageDtoOut;
 import vn.unigap.api.entity.Employer;
 import vn.unigap.api.entity.Job;
+import vn.unigap.api.entity.Province;
 import vn.unigap.api.repository.EmployerRepository;
 import vn.unigap.api.repository.JobRepository;
 import vn.unigap.common.errorcode.ErrorCode;
 import vn.unigap.common.exception.ApiException;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -48,7 +50,13 @@ public class JobServiceImpl implements JobService{
         job.setDescription(jobDtoIn.getDescription());
         job.setSalary(jobDtoIn.getSalary());
         job.setFields(jobDtoIn.getFieldIds());
-        job.setProvinces(jobDtoIn.getProvinceIds());
+
+        // Convert ProvinceDtoIn to Province and set it to provincesEntity
+        Set<Province> provinces = jobDtoIn.getProvinceIds().stream()
+                .collect(Collectors.toSet());
+        job.setProvincesEntity(provinces);
+
+        job.setProvinces(job.provincesToString());
         job.setExpiredAt(jobDtoIn.getExpiredAt());
 
         Job savedJob = jobRepository.save(job);
@@ -68,8 +76,10 @@ public class JobServiceImpl implements JobService{
         job.setDescription(jobDtoIn.getDescription());
         job.setSalary(jobDtoIn.getSalary());
         job.setFields(jobDtoIn.getFieldIds());
-        job.setProvinces(jobDtoIn.getProvinceIds());
+        job.setProvinces(job.provincesToString());
         job.setExpiredAt(jobDtoIn.getExpiredAt());
+
+         jobRepository.save(job);
 
         Employer employer = employerRepository.findById(jobDtoIn.getEmployerId())
                 .orElseThrow(

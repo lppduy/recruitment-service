@@ -28,4 +28,7 @@ public class Province {
     @OneToMany(mappedBy = "province")
     private List<Seeker> seekers;
 
+    @ManyToMany(mappedBy = "provincesEntity")
+    private Set<Job> jobs;
+
 }

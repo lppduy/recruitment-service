@@ -32,4 +32,5 @@ public class Common {
     public static LocalDateTime currentDateTime() {
         return LocalDateTime.now();
     }
+
 }
