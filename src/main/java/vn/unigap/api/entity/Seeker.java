@@ -30,8 +30,9 @@ public class Seeker {
     @Column(name = "address")
     private String address;
 
-    @Column(name = "province")
-    private Integer province;
+    @ManyToOne
+    @JoinColumn(name = "province")
+    private Province province;
 
     @Column(name = "created_at")
     @CreationTimestamp

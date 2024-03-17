@@ -3,10 +3,7 @@ package vn.unigap.api.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import vn.unigap.api.dto.in.SeekerDtoIn;
 import vn.unigap.api.dto.out.SeekerDtoOut;
 import vn.unigap.api.service.SeekerService;
@@ -32,4 +29,35 @@ public class SeekerController extends AbstractResponseController {
             return new HashMap();
         }, HttpStatus.CREATED);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateSeeker(@PathVariable Long id, @RequestBody SeekerDtoIn seekerDtoIn) {
+        seekerService.updateSeeker(id, seekerDtoIn);
+        return responseEntity(() -> {
+            return new HashMap();
+        }, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getSeeker(@PathVariable Long id) {
+        return responseEntity(() -> {
+            return this.seekerService.getSeeker(id);
+        });
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteSeeker(@PathVariable Long id) {
+        return responseEntity(() -> {
+            this.seekerService.deleteSeeker(id);
+            return new HashMap<>();
+        });
+    }
+
+    @GetMapping
+    public ResponseEntity<?> getAllSeekers(@RequestParam int page, @RequestParam int pageSize, @RequestParam Long provinceId) {
+        return responseEntity(() -> {
+            return this.seekerService.getAllSeekers(page, pageSize, provinceId);
+        });
+    }
+
 }

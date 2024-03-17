@@ -27,12 +27,18 @@ public class SeekerDtoOut {
     private String provinceName;
 
     public static SeekerDtoOut from(Seeker seeker) {
-        return SeekerDtoOut.builder()
-                .id(seeker.getId())
-                .name(seeker.getName())
-                .birthday(seeker.getBirthday())
-                .address(seeker.getAddress())
-                .provinceId(seeker.getProvince())
-                .build();
+
+
+        SeekerDtoOut dto = new SeekerDtoOut();
+        dto.setId(seeker.getId());
+        dto.setName(seeker.getName());
+        dto.setBirthday(seeker.getBirthday());
+        dto.setAddress(seeker.getAddress());
+        // Check if Province is null before accessing its methods
+        if (seeker.getProvince() != null) {
+            dto.setProvinceId(seeker.getProvince().getId());
+            dto.setProvinceName(seeker.getProvince().getName());
+        }
+        return dto;
     }
 }

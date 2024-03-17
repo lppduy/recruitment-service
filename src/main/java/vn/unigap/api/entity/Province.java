@@ -3,6 +3,7 @@ package vn.unigap.api.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -23,5 +24,8 @@ public class Province {
 
     @Column(name = "slug")
     private String slug;
+
+    @OneToMany(mappedBy = "province")
+    private List<Seeker> seekers;
 
 }
