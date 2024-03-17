@@ -37,9 +37,10 @@ public class EmployerController extends AbstractResponseController {
     @PutMapping(value = "/{id}")
     public ResponseEntity<?> updateEmpployer(@PathVariable(value = "id") Long id,
                                     @RequestBody @Valid EmployerDtoIn employerDtoIn) {
+        employerService.updateEmployer(id, employerDtoIn);
         return responseEntity(() -> {
-            return this.employerService.updateEmployer(id, employerDtoIn);
-        });
+            return new HashMap();
+        }, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}", consumes = MediaType.ALL_VALUE)

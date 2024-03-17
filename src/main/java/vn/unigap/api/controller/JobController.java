@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.unigap.api.dto.in.EmployerDtoIn;
 import vn.unigap.api.dto.in.JobDtoIn;
+import vn.unigap.api.dto.in.PageDtoIn;
 import vn.unigap.api.dto.out.JobDtoOut;
 import vn.unigap.api.service.JobService;
 import vn.unigap.common.controller.AbstractResponseController;
@@ -35,6 +36,34 @@ public class JobController  extends AbstractResponseController {
         }, HttpStatus.CREATED);
     }
 
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<?> updateJob(@PathVariable Long id, @RequestBody @Valid JobDtoIn jobDtoIn) {
+        jobService.updateJob(id, jobDtoIn);
+        return responseEntity(() -> {
+            return new HashMap();
+        }, HttpStatus.OK);
+    }
 
+    @GetMapping(value = "/{id}", consumes = MediaType.ALL_VALUE)
+    public ResponseEntity<?> getJob(@PathVariable(value = "id") Long id) {
+        return responseEntity(() -> {
+            return this.jobService.getJob(id);
+        });
+    }
+
+    @DeleteMapping(value = "/{id}", consumes = MediaType.ALL_VALUE)
+    public ResponseEntity<?> deleteJob(@PathVariable(value = "id") Long id) {
+        return responseEntity(() -> {
+            this.jobService.deleteJob(id);
+            return new HashMap<>();
+        });
+    }
+
+    @GetMapping(value = "", consumes = MediaType.ALL_VALUE)
+    public ResponseEntity<?> getAllJobs(@Valid PageDtoIn pageDtoIn) {
+        return responseEntity(() -> {
+            return this.jobService.getAllJobs(pageDtoIn);
+        });
+    }
 
 }

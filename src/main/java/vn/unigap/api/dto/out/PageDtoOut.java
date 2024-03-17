@@ -24,6 +24,7 @@ public class PageDtoOut<T> {
     @Builder.Default
     private List<T> data = new ArrayList<>();
 
+
     public static <T> PageDtoOut<T> from(Integer page, Integer pageSize, Long totalElements, List<T> data) {
         Long totalPages = totalElements / pageSize;
         if (totalElements % pageSize != 0) {
