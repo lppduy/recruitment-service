@@ -1,6 +1,5 @@
 package vn.unigap.api.dto.in;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -8,28 +7,39 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import vn.unigap.common.Common;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class EmployerDtoIn {
-
-    @Email
-    @NotEmpty
-    @Size(max = 255)
-    private String email;
+public class JobDtoIn {
 
     @NotEmpty
     @Size(max = 255)
-    private String name;
+    private String title;
 
     @NotNull
-    private int provinceId;
+    private Long employerId;
 
+    @NotNull
+    private Integer quantity;
+
+    @NotEmpty
+    @Size(max = 1000)
     private String description;
-    public String getEmail() {
-        return Common.toLowerCase(email);
-    }
+
+    @NotNull
+    private List<Integer> fieldIds;
+
+    @NotNull
+    private List<Integer> provinceIds;
+
+    @NotNull
+    private Double salary;
+
+    @NotNull
+    private LocalDate expiredAt;
 }

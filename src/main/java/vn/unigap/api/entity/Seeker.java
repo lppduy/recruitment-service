@@ -1,12 +1,12 @@
 package vn.unigap.api.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Set;
 
 @Getter
@@ -15,25 +15,25 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "employer")
-public class Employer {
+@Table(name = "seeker")
+public class Seeker {
+
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Email
-    @Column(name= "email", unique = true)
-    private String email;
-
-    @Column(name= "name")
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "province")
-    private int province;
+    @Column(name = "birthday")
+    private LocalDate birthday;
 
-    @Column(name= "description")
-    private String description;
+    @Column(name = "address")
+    private String address;
+
+    @ManyToOne
+    @JoinColumn(name = "province")
+    private Province province;
 
     @Column(name = "created_at")
     @CreationTimestamp
@@ -43,6 +43,7 @@ public class Employer {
     @UpdateTimestamp
     private Instant updatedAt;
 
-    @OneToMany(mappedBy = "employer")
-    Set<Job> jobs;
+    @OneToMany(mappedBy = "seeker")
+    private Set<Resume> resumes;
+
 }

@@ -4,11 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import vn.unigap.api.entity.Employer;
-import vn.unigap.api.repository.ProvinceRepository;
-
-import java.time.Instant;
 
 @Data
 @AllArgsConstructor
@@ -23,8 +19,6 @@ public class EmployerDtoOut {
     private int provinceId;
     private String provinceName;
     private String description;
-//    private Instant createdAt;
-//    private Instant updatedAt;
 
     public static EmployerDtoOut from(Employer employer, String provinceName) {
 
@@ -36,8 +30,6 @@ public class EmployerDtoOut {
                 .provinceId(employer.getProvince())
                 .provinceName(provinceName)
                 .description(employer.getDescription())
-//                .createdAt(employer.getCreatedAt())
-//                .updatedAt(employer.getUpdatedAt())
                 .build();
     }
 }
