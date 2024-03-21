@@ -50,21 +50,21 @@ public class Resume {
     @ManyToOne
     @JoinColumn(name = "seeker_id", insertable = false, updatable = false)
     private Seeker seeker;
-
-    @ManyToMany
-    @JoinTable(
-            name = "resume_field",
-            joinColumns = @JoinColumn(name = "resume_id"),
-            inverseJoinColumns = @JoinColumn(name = "field_id")
-    )
-    private Set<Field> fieldSet;
-
-    @ManyToMany
-    @JoinTable(
-            name = "resume_province",
-            joinColumns = @JoinColumn(name = "resume_id"),
-            inverseJoinColumns = @JoinColumn(name = "province_id")
-    )
-    private Set<Province> provinceSet;
+//
+//    @ManyToMany
+//    @JoinTable(
+//            name = "resume_field",
+//            joinColumns = @JoinColumn(name = "resume_id"),
+//            inverseJoinColumns = @JoinColumn(name = "field_id")
+//    )
+//    private Set<Field> fieldSet;
+//
+//    @ManyToMany
+//    @JoinTable(
+//            name = "resume_province",
+//            joinColumns = @JoinColumn(name = "resume_id"),
+//            inverseJoinColumns = @JoinColumn(name = "province_id")
+//    )
+//    private Set<Province> provinceSet;
 
 }

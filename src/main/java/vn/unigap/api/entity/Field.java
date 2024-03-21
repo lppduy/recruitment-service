@@ -24,6 +24,6 @@ public class Field {
     @Column(name = "slug")
     private String slug;
 
-    @ManyToMany(mappedBy = "fieldSet")
-    private Set<Resume> resumes;
+//    @ManyToMany(mappedBy = "fieldSet")
+//    private Set<Resume> resumes;
 }
