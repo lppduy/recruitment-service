@@ -31,7 +31,7 @@ public class Province {
     @ManyToMany(mappedBy = "provincesEntity")
     private Set<Job> jobs;
 
-//    @ManyToMany(mappedBy = "provinceSet")
-//    private Set<Resume> resumes;
+    @ManyToMany(mappedBy = "provinceSet")
+    private Set<Resume> resumes;
 
 }

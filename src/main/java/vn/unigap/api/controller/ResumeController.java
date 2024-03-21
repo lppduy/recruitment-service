@@ -31,5 +31,36 @@ public class ResumeController extends AbstractResponseController {
         }, HttpStatus.CREATED);
     }
 
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<?> updateResume(@PathVariable Long id, @RequestBody @Valid ResumeDtoIn resumeDtoIn) {
+        resumeService.updateResume(id, resumeDtoIn);
+        return responseEntity(() -> {
+            return new HashMap();
+        }, HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/{id}", consumes = MediaType.ALL_VALUE)
+    public ResponseEntity<?> deleteResume(@PathVariable Long id) {
+        resumeService.deleteResume(id);
+        return responseEntity(() -> {
+            return new HashMap();
+        }, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/{id}", consumes = MediaType.ALL_VALUE)
+    public ResponseEntity<?> getResume(@PathVariable(value = "id") Long id) {
+        return responseEntity(() -> {
+            return this.resumeService.getResume(id);
+        });
+    }
+
+    @GetMapping(value = "", consumes = MediaType.ALL_VALUE)
+    public ResponseEntity<?> getAllResumes(@RequestParam(value = "page", defaultValue = "0") int page,
+                                          @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
+                                          @RequestParam(value = "seekerId", required = false) Long seekerId) {
+        return responseEntity(() -> {
+            return this.resumeService.getAllResumes(page, pageSize, seekerId);
+        });
+    }
     // ... add more methods for handling other resume-related requests
 }
