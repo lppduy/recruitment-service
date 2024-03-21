@@ -9,6 +9,7 @@ import vn.unigap.common.ProvincesDeserializer;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -25,8 +26,6 @@ public class Job {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-//    @Column(name = "employer_id")
-//    private Long employerId;
     @ManyToOne
     @JoinColumn(name = "employer_id")
     private Employer employer;
@@ -69,20 +68,16 @@ public class Job {
     @JsonDeserialize(using = ProvincesDeserializer.class)
     private Set<Province> provincesEntity;
 
-    /**
-     * Converts the provincesEntity set to a string.
-     * Note: There are some entities in the database where provinces have a value
-     * but are not yet matched in the jobs_provinces table. In these cases,
-     * provincesEntity will be null or empty, even though provinces has a value.
-     * This method returns the current value of provinces in these cases.
-     */
-    public String provincesToString() {
-        if (provincesEntity == null || provincesEntity.isEmpty()) {
-            return provinces;
-        }
-        return provincesEntity.stream()
-                .map(province -> province.getId().toString())
-                .collect(Collectors.joining("-", "-", "-"));
+
+    public void setFieldsFromList(List<Integer> fieldIds) {
+        this.fields = fieldIds.stream()
+                .map(fieldId -> fieldId + "-")
+                .collect(Collectors.joining());
     }
 
+    public void setProvincesFromList(List<Integer> provinceIds) {
+        this.provinces = provinceIds.stream()
+                .map(provinceId -> provinceId + "-")
+                .collect(Collectors.joining());
+    }
 }

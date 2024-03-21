@@ -16,6 +16,7 @@ import vn.unigap.api.entity.Job;
 import vn.unigap.api.entity.Province;
 import vn.unigap.api.repository.EmployerRepository;
 import vn.unigap.api.repository.JobRepository;
+import vn.unigap.api.repository.ProvinceRepository;
 import vn.unigap.common.errorcode.ErrorCode;
 import vn.unigap.common.exception.ApiException;
 
@@ -27,10 +28,12 @@ import java.util.stream.Collectors;
 public class JobServiceImpl implements JobService{
     private final JobRepository jobRepository;
     private final EmployerRepository employerRepository;
+    private final ProvinceRepository provinceRepository;
 
-    public JobServiceImpl(JobRepository jobRepository, EmployerRepository employerRepository) {
+    public JobServiceImpl(JobRepository jobRepository, EmployerRepository employerRepository, ProvinceRepository provinceRepository) {
         this.jobRepository = jobRepository;
         this.employerRepository = employerRepository;
+        this.provinceRepository = provinceRepository;
     }
 
     @Override
@@ -49,14 +52,11 @@ public class JobServiceImpl implements JobService{
         job.setQuantity(jobDtoIn.getQuantity());
         job.setDescription(jobDtoIn.getDescription());
         job.setSalary(jobDtoIn.getSalary());
-        job.setFields(jobDtoIn.getFieldIds());
 
-        // Convert ProvinceDtoIn to Province and set it to provincesEntity
-        Set<Province> provinces = jobDtoIn.getProvinceIds().stream()
-                .collect(Collectors.toSet());
-        job.setProvincesEntity(provinces);
+        // Convert the fieldIds and provinceIds list to a string
+        job.setFieldsFromList(jobDtoIn.getFieldIds());
+        job.setProvincesFromList(jobDtoIn.getProvinceIds());
 
-        job.setProvinces(job.provincesToString());
         job.setExpiredAt(jobDtoIn.getExpiredAt());
 
         Job savedJob = jobRepository.save(job);
@@ -64,34 +64,35 @@ public class JobServiceImpl implements JobService{
         return JobDtoOut.from(savedJob);
     }
 
-    @Override
-    public JobDtoOut updateJob(Long id, JobDtoIn jobDtoIn) {
-        Job job = jobRepository.findById(id)
-                .orElseThrow(
-                        () -> new ApiException(ErrorCode.NOT_FOUND, HttpStatus.NOT_FOUND, "Job not found")
-                );
+@Override
+public JobDtoOut updateJob(Long id, JobDtoIn jobDtoIn) {
+    Job job = jobRepository.findById(id)
+            .orElseThrow(
+                    () -> new ApiException(ErrorCode.NOT_FOUND, HttpStatus.NOT_FOUND, "Job not found")
+            );
 
-        job.setTitle(jobDtoIn.getTitle());
-        job.setQuantity(jobDtoIn.getQuantity());
-        job.setDescription(jobDtoIn.getDescription());
-        job.setSalary(jobDtoIn.getSalary());
-        job.setFields(jobDtoIn.getFieldIds());
-        job.setProvinces(job.provincesToString());
-        job.setExpiredAt(jobDtoIn.getExpiredAt());
+    job.setTitle(jobDtoIn.getTitle());
+    job.setQuantity(jobDtoIn.getQuantity());
+    job.setDescription(jobDtoIn.getDescription());
+    job.setSalary(jobDtoIn.getSalary());
 
-         jobRepository.save(job);
+    // Convert the fieldIds and provinceIds list to a string
+    job.setFieldsFromList(jobDtoIn.getFieldIds());
+    job.setProvincesFromList(jobDtoIn.getProvinceIds());
 
-        Employer employer = employerRepository.findById(jobDtoIn.getEmployerId())
-                .orElseThrow(
-                        () -> new ApiException(ErrorCode.NOT_FOUND, HttpStatus.NOT_FOUND, "Employer not found")
-                );
+    job.setExpiredAt(jobDtoIn.getExpiredAt());
 
-        job.setEmployer(employer);
+    Employer employer = employerRepository.findById(jobDtoIn.getEmployerId())
+            .orElseThrow(
+                    () -> new ApiException(ErrorCode.NOT_FOUND, HttpStatus.NOT_FOUND, "Employer not found")
+            );
 
-        Job updatedJob = jobRepository.save(job);
+    job.setEmployer(employer);
 
-        return JobDtoOut.from(updatedJob);
-    }
+    Job updatedJob = jobRepository.save(job);
+
+    return JobDtoOut.from(updatedJob);
+}
 
     @Override
     public JobDtoOut getJob(Long id) {
