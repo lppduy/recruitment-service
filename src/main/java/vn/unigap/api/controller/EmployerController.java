@@ -2,6 +2,7 @@ package vn.unigap.api.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -49,6 +50,7 @@ public class EmployerController extends AbstractResponseController {
             return this.employerService.getEmployer(id);
         });
     }
+
 
     @DeleteMapping(value = "/{id}", consumes = MediaType.ALL_VALUE)
     public ResponseEntity<?> deleteEmployer(@PathVariable(value = "id") Long id) {
