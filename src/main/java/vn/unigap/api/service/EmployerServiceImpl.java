@@ -1,6 +1,9 @@
 package vn.unigap.api.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -20,6 +23,7 @@ import vn.unigap.common.exception.ApiException;
 import java.util.HashMap;
 
 @Service
+@CacheConfig(cacheNames={"employers"})
 public class EmployerServiceImpl implements EmployerService {
 
     private final EmployerRepository employerRepository;
@@ -32,6 +36,7 @@ public class EmployerServiceImpl implements EmployerService {
     }
 
 
+    @CacheEvict(key = "#result.id")
     @Override
     public EmployerDtoOut createEmployer(EmployerDtoIn employerDtoIn) {
 
@@ -55,6 +60,7 @@ public class EmployerServiceImpl implements EmployerService {
         return EmployerDtoOut.from(employer,province.getName());
     }
 
+    @CacheEvict(key = "#id")
     @Override
     public EmployerDtoOut updateEmployer(Long id, EmployerDtoIn employerDtoIn) {
 
@@ -77,6 +83,7 @@ public class EmployerServiceImpl implements EmployerService {
     }
 
     @Override
+    @Cacheable(key = "#id")
     public EmployerDtoOut getEmployer(Long id) {
         Employer employer = employerRepository.findById(id).orElseThrow(
                 () -> new ApiException(ErrorCode.NOT_FOUND, HttpStatus.NOT_FOUND, "Employer not found")
@@ -87,6 +94,7 @@ public class EmployerServiceImpl implements EmployerService {
         return EmployerDtoOut.from(employer, province.getName());
     }
 
+    @CacheEvict(key = "#id")
     @Override
     public void deleteEmployer(Long id) {
         Employer employer = employerRepository.findById(id).orElseThrow(
@@ -96,6 +104,7 @@ public class EmployerServiceImpl implements EmployerService {
         employerRepository.delete(employer);
     }
 
+    @Cacheable(key = "#pageDtoIn.page + '-' + #pageDtoIn.pageSize")
     @Override
     public PageDtoOut<EmployerDtoOut> getAllEmployers(PageDtoIn pageDtoIn) {
 
