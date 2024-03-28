@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.web.servlet.MockMvc;
 import vn.unigap.api.dto.in.SeekerDtoIn;
 import vn.unigap.api.dto.out.SeekerDtoOut;
@@ -12,6 +13,7 @@ import vn.unigap.api.service.SeekerService;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -36,7 +38,8 @@ public class SeekerControllerTests {
         given(seekerService.getSeeker(id)).willReturn(expectedSeeker);
 
         // when & then
-        mockMvc.perform(get("/seekers/{id}", id))
+        mockMvc.perform(get("/seekers/{id}", id)
+                .with(jwt().authorities(new SimpleGrantedAuthority("ROLE_ADMIN")))) // Add the authentication token with "ROLE_ADMIN" to the request
                 .andExpect(status().isOk());
     }
 }
