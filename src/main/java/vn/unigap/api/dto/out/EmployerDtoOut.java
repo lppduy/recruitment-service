@@ -6,11 +6,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import vn.unigap.api.entity.Employer;
 
+import java.io.Serializable;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class EmployerDtoOut {
+public class EmployerDtoOut implements Serializable {
 
 
     private Long id;
