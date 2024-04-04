@@ -1,6 +1,8 @@
-// MetricsController.java
 package vn.unigap.api.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +22,11 @@ public class MetricsController {
         this.metricsService = metricsService;
     }
 
+    @Operation(summary = "Get metrics between two dates")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully retrieved metrics"),
+        @ApiResponse(responseCode = "400", description = "Invalid date format supplied"),
+    })
     @GetMapping("/metrics")
     public Map<String, Object> getMetrics(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fromDate,
                                           @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate toDate) {
