@@ -1,59 +1,46 @@
+# Project Overview
 
-# Recruitment Service
+## Table of Contents
+* [General Info](#general-info)
+* [Features](#features)
+* [Technologies](#technologies)
+* [Setup](#setup)
 
-## Giới thiệu
+## General Info
+This project is a web application developed using Spring Boot and Java. It provides a platform for job seekers and employers, allowing them to create, update, and manage their profiles, as well as search for jobs and candidates.
 
-Đây là dự án về lĩnh vực tuyển dụng, sử dụng Java, Spring Boot và Maven. Dự án này yêu cầu thiết kế và triển khai các API cho hệ thống.
+## Features
+The main features of the project include:
+* User authentication and authorization using Spring Security and OAuth2.
+* CRUD operations for job seekers and employers.
+* Search functionality for jobs and candidates.
+* Metrics collection and reporting.
+* Validation of user input data.
+* Error handling and response.
 
-## Cài đặt
+## Technologies
+The project is created with:
+* Java: The main programming language used for development.
+* Spring Boot: Used to create stand-alone, production-grade Spring-based applications.
+* Spring Security: Provides authentication and authorization support.
+* Spring Data JPA: Provides a way to reduce boilerplate code to interact with the database.
+* MySQL: The database used for persisting data.
+* Maven: Used for managing project's build.
+* Lombok: Used to reduce boilerplate code for model/data objects.
+* SpringDoc OpenAPI: Used for API documentation.
 
-Đảm bảo bạn đã cài đặt Java và Maven trên máy của bạn.
+## Setup
+To run this project, follow the steps below:
 
-1. Clone dự án này về máy của bạn:
+1. Clone the repository to your local machine.
+2. Navigate to the project directory.
+3. Make sure you have Maven installed. You can check by running the command `mvn -v`.
+4. Run the project using Maven with the command `mvn spring-boot:run`.
 
 ```bash
-git clone https://github.com/lppduy/recruitment-service.git
+$ git clone https://github.com/lppduy/recruitment-service
+$ cd recruitment-service
+$ mvn spring-boot:run
 ```
 
-2. Chuyển đến thư mục dự án:
-
-```bash
-cd recruitment-service
-```
-
-3. Chạy dự án bằng Maven:
-
-```bash
-mvn spring-boot:run
-```
-
-## Tính năng
-
-- Thiết kế và triển khai các API cho hệ thống tuyển dụng.
-- Sử dụng Spring Boot và Maven để xây dựng và quản lý dự án.
-- Sử dụng JUnit 5 để thực hiện kiểm thử cho ứng dụng.
-- Sử dụng Spring Security để bảo mật ứng dụng.
-- Sử dụng Spring Boot Actuator để mở rộng khả năng giám sát và theo dõi ứng dụng.
-
-## Sử dụng
-
-Đang cập nhật ....
-
-## Đóng góp
-
-Nếu bạn muốn đóng góp cho dự án, hãy tạo một pull request. Đối với các thay đổi lớn, vui lòng mở một issue trước để thảo luận về những gì bạn muốn thay đổi.
-
-## Kiến thức bạn sẽ thu được
-
-- Spring configuration using Java Configuration and Annotations
-- Testing Spring applications using JUnit 5
-- Spring Data Access - JDBC, JPA and Spring Data
-- Simplifying application development with Spring Boot
-- Spring Boot auto-configuration, starters and properties
-- Build a simple REST application using Spring Boot
-- Spring Security
-- Enable and extend metrics and monitoring capabilities using Spring Boot actuator
-
-## Giấy phép
-
-[MIT](https://choosealicense.com/licenses/mit/)
+Please ensure you have the necessary environment variables set up and the MySQL server running.
