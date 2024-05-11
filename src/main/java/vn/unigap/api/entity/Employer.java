@@ -7,6 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -42,4 +43,6 @@ public class Employer {
     @UpdateTimestamp
     private Instant updatedAt;
 
+    @OneToMany(mappedBy = "employer")
+    Set<Job> jobs;
 }

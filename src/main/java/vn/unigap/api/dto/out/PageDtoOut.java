@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PageDtoOut<T> {
+public class PageDtoOut<T> implements Serializable {
     @Builder.Default
     private Integer page = 1;
     @Builder.Default
@@ -23,6 +24,7 @@ public class PageDtoOut<T> {
     private Long totalPages = 0L;
     @Builder.Default
     private List<T> data = new ArrayList<>();
+
 
     public static <T> PageDtoOut<T> from(Integer page, Integer pageSize, Long totalElements, List<T> data) {
         Long totalPages = totalElements / pageSize;
