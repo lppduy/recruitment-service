@@ -31,3 +31,17 @@ logging:
   level:
     vn.unigap.common.exception.ApiExceptionHandler: DEBUG
     vn.unigap.api.controller.AuthController: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+sentry:
+  dsn: https://434cdf9d6bf948fb756873de66a25ccd@o4507235959308288.ingest.us.sentry.io/4507235961012224
+
+  # Set traces_sample_rate to 1.0 to capture 100%
+  # of transactions for performance monitoring.
+  # We recommend adjusting this value in production.
+  tracesSampleRate: 1.0
